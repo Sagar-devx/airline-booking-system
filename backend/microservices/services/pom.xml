@@ -17,7 +17,7 @@
     <description>Aggregator for Services Modules</description>
 
     <modules>
-       <module>user-service</module>
+        <module>location-service</module>
     </modules>
 
 </project>
