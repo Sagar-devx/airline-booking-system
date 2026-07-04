@@ -4,5 +4,4 @@ target/
 *.iws
 *.ipr
 .vscode/
-project_bug_report.md
 
