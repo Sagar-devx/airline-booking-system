@@ -9,6 +9,7 @@ import com.sagar.repository.AirportRepository;
 import com.sagar.repository.CityRepository;
 import com.sagar.service.AirportService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class AirportServiceImpl implements AirportService {
 
     private final AirportRepository airportRepository;
@@ -23,7 +25,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public AirportResponse createAirport(AirportRequest request) throws Exception {
-
+        log.info("Creating airport with IATA code: {}", request.getIataCode());
        if(airportRepository.findByIataCode(request.getIataCode()).isPresent()) {
            throw new Exception("Airport with IATA code " + request.getIataCode() + " already exists");
        }
@@ -39,6 +41,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public AirportResponse getAirportById(Long id) throws Exception {
+        log.info("Fetching airport with id: {}", id);
         Airport airport = airportRepository.findById(id)
                 .orElseThrow(() -> new Exception("Airport with ID " + id + " not found"));
         return AirportMapper.toResponse(airport);
@@ -46,6 +49,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public List<AirportResponse> getAllAirports() {
+        log.info("Fetching all airports");
         return airportRepository.findAll().stream()
                 .map(AirportMapper::toResponse)
                 .collect(Collectors.toList());
@@ -53,7 +57,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public AirportResponse updateAirport(Long id, AirportRequest request) throws Exception {
-
+        log.info("Updating airport with id: {}", id);
        Airport existingAirport = airportRepository.findById(id)
                .orElseThrow(() -> new Exception("Airport with ID " + id + " not found"));
 
@@ -75,7 +79,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public void deleteAirportById(Long id) throws Exception {
-
+        log.info("Deleting airport with id: {}", id);
         Airport airport = airportRepository.findById(id)
                 .orElseThrow(() -> new Exception("Airport with ID " + id + " not found"));
 
@@ -85,6 +89,7 @@ public class AirportServiceImpl implements AirportService {
 
     @Override
     public List<AirportResponse> getAirportByCityId(Long cityId){
+        log.info("Fetching airports for cityId: {}", cityId);
         return airportRepository.findByCityId(cityId).stream()
                 .map(AirportMapper::toResponse)
                 .collect(Collectors.toList());

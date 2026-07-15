@@ -10,6 +10,7 @@ import com.sagar.repository.UserRepository;
 import com.sagar.service.AuthService;
 import com.sagar.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
@@ -29,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse signup(UserDto req) throws Exception {
-
+        log.info("Registering new user with email: {}", req.getEmail());
         User existingUser = userRepository.findByEmail(req.getEmail());
 
         if (existingUser != null) {
@@ -59,6 +61,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponse login(String email, String password) throws Exception {
+        log.info("Logging in user with email: {}", email);
         Authentication authentication = authenticate(email, password);
 
         User user = userRepository.findByEmail(email);
@@ -76,6 +79,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private Authentication authenticate(String email, String password) throws Exception {
+        log.info("Authenticating credentials for email: {}", email);
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {
