@@ -5,15 +5,19 @@ import com.sagar.enums.AirlineStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -45,6 +49,7 @@ public class Airline {
     private String website;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private AirlineStatus status = AirlineStatus.ACTIVE;
 
     private String alliance;
