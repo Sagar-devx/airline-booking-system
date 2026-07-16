@@ -57,8 +57,12 @@ public class Aircraft {
     @Builder.Default
     private Integer firstClassSeats = 0;
 
+    private Integer rangeKm;
+
     @Column(name = "cruising_speed_kmh")
     private Integer cruisingSpeedKmh;
+
+    private Integer maxAltitudeFt;
 
     @Column(name = "year_of_manufacture")
     private Integer yearOfManufacture;
